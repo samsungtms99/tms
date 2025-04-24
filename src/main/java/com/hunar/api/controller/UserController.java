@@ -80,12 +80,6 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/getUserTypes")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    List<String> getUserTypes() {
-        return userService.getUserTypes();
-    }
-
     @PostMapping("/changePassword")
     public UserBean changePassword(@RequestBody PasswordBean passwordBean) throws FmkException {
         return userService.changePassword(passwordBean);

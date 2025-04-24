@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "TM_ORDER")
@@ -95,6 +96,9 @@ public class Order extends GenericEntity {
     @ManyToOne
     @JoinColumn(name = "ID_CUSTOMER")
     private CustomerEntity customer;
+
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//    private List<ImageEntity> imageEntities;
 
     public String getPaymentStatus() {
         return paymentStatus;

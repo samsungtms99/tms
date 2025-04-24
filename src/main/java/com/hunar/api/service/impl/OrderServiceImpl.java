@@ -5,6 +5,7 @@ import com.hunar.api.bean.InvoiceBean;
 import com.hunar.api.bean.OrderBean;
 import com.hunar.api.bean.TypeMeasurementBean;
 import com.hunar.api.constant.Constants;
+import com.hunar.api.controller.ImageController;
 import com.hunar.api.email.EmailRequest;
 import com.hunar.api.email.EmailResponse;
 import com.hunar.api.email.EmailService;
@@ -44,9 +45,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderRepository orderRepository;
-
-    @Autowired
-    AddressRepository addressRepository;
 
     @Autowired
     CustomerRepository customerRepository;
@@ -164,13 +162,13 @@ public class OrderServiceImpl implements OrderService {
 //    }
 
 
-    private Address checkByAddressId(int idAddress) throws FmkException {
-        Optional<Address> address = addressRepository.findById(idAddress);
-        if (!address.isPresent()) {
-            throw new FmkException("A1002","Invalid Address Id: "+String.valueOf(idAddress));
-        }
-        return address.get();
-    }
+//    private Address checkByAddressId(int idAddress) throws FmkException {
+//        Optional<Address> address = addressRepository.findById(idAddress);
+//        if (!address.isPresent()) {
+//            throw new FmkException("A1002","Invalid Address Id: "+String.valueOf(idAddress));
+//        }
+//        return address.get();
+//    }
 
     private CustomerEntity checkByCustomerId(int idCustomer) throws FmkException {
         Optional<CustomerEntity> customer = customerRepository.findById(idCustomer);
@@ -282,9 +280,11 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
+    @Autowired
+    ImageController imageController;
 
     @Override
-    public List<OrderBean> getListOfAllOrders() throws FmkException {
+    public List<OrderBean> getListOfAllOrders() throws FmkException, IOException {
         List<OrderBean> listOfAllOrdersBean = null;
         List<Order> listOfAllOrdersEntity = (List<Order>) orderRepository.findAll();
         if (!listOfAllOrdersEntity.isEmpty()) {
@@ -292,6 +292,9 @@ public class OrderServiceImpl implements OrderService {
             for (Order orderEntity : listOfAllOrdersEntity) {
                 OrderBean orderBean = new OrderBean();
                 BeanUtils.copyProperties(orderEntity, orderBean);
+                if (!imageController.downloadBase64ImageFromFileSystem(orderEntity.getOrderId()).isEmpty()){
+                    orderBean.setImages(imageController.downloadBase64ImageFromFileSystem(orderEntity.getOrderId()));
+                }
 //                CustomerEntity customer = checkByCustomerId(orderEntity.getIdCustomer());
 //                orderBean.setCustomerName(customer.getCustomerName());
                 List<TypeMeasurementBean> typeMeasurementBeans = getTypeMeasurementByOrderId(orderEntity.getOrderId());

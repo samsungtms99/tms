@@ -4,11 +4,8 @@ package com.hunar.api.service.impl;
 import com.hunar.api.bean.PasswordBean;
 import com.hunar.api.bean.UserBean;
 import com.hunar.api.entity.UserEntity;
-import com.hunar.api.entity.UserType;
-import com.hunar.api.exceptionHandling.util.Errors;
 import com.hunar.api.exceptionHandling.util.FmkException;
 import com.hunar.api.repository.UserRepository;
-import com.hunar.api.repository.UserTypeRepository;
 import com.hunar.api.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,8 +27,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	@Autowired
-	UserTypeRepository userTypeRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -63,8 +58,8 @@ public class UserServiceImpl implements UserService {
 			logger.info("Creating new user: "+userBean.getUserName());
 			UserEntity userEntity = new UserEntity();
 			BeanUtils.copyProperties(userBean,userEntity);
-//			String username = userBean.getUserName().toLowerCase();
-//			userEntity.setUserName(username);
+			String username = userBean.getUserName().toLowerCase();
+			userEntity.setUserName(username);
 			userEntity.setViewPassword(userBean.getUserPassword());
 			userEntity.setUserPassword(encoder.encode(userBean.getUserPassword()));
 			UserEntity userEntity1 = userRepository.save(userEntity);
@@ -135,14 +130,6 @@ public class UserServiceImpl implements UserService {
 		return "";
 	}
 
-
-	@Override
-	public List<String> getUserTypes() {
-		List<UserType> userTypeList = (List<UserType>) userTypeRepository.findAll();
-        return userTypeList.stream()
-                .map(UserType::getTypeName) // Extracts typeName from each UserType
-                .collect(Collectors.toList());
-	}
 
 	@Override
 	public UserBean getUserById(int id) throws FmkException {

@@ -7,7 +7,9 @@ package com.hunar.api.directory.util;
 public class DirectoryResource {
 
 	/** The Constant DIRECTORY_INOUT. */
-	public static final String DIRECTORY_INOUT = "inout";
+	public static final String DIRECTORY_ORDER = "ORDER";
+
+	public static final String DIRECTORY_BILLING = "BILLING";
 
 	/** The Constant DIRECTORY_PRINTER. */
 	public static final String DIRECTORY_PRINTER = "printer";
