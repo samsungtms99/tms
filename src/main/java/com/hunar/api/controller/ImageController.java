@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -68,5 +69,16 @@ public class ImageController {
                 .map(Base64.getEncoder()::encodeToString)
                 .collect(Collectors.toList());
 
+    }
+
+
+    @PostMapping(value = "uploadImageUsingCloudnary")
+    public Map uploadImageUsingCloudnary(@RequestParam("image") MultipartFile file){
+        return service.uploadImageToCloudnary(file);
+    }
+
+    @GetMapping(value = "getImagesPathByOrderId/{idOrder}")
+    public List<ImageEntity> getImagesPathByOrderId(@PathVariable("idOrder") int idOrder){
+        return  service.findByIdOrder(idOrder);
     }
 }

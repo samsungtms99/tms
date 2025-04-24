@@ -12,6 +12,7 @@ import com.hunar.api.email.EmailService;
 import com.hunar.api.entity.*;
 import com.hunar.api.exceptionHandling.util.FmkException;
 import com.hunar.api.repository.*;
+import com.hunar.api.service.ImageService;
 import com.hunar.api.service.MeasurementService;
 import com.hunar.api.service.OrderService;
 import org.apache.logging.log4j.LogManager;
@@ -281,7 +282,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Autowired
-    ImageController imageController;
+    ImageService imageService;
 
     @Override
     public List<OrderBean> getListOfAllOrders() throws FmkException, IOException {
@@ -292,8 +293,14 @@ public class OrderServiceImpl implements OrderService {
             for (Order orderEntity : listOfAllOrdersEntity) {
                 OrderBean orderBean = new OrderBean();
                 BeanUtils.copyProperties(orderEntity, orderBean);
-                if (!imageController.downloadBase64ImageFromFileSystem(orderEntity.getOrderId()).isEmpty()){
-                    orderBean.setImages(imageController.downloadBase64ImageFromFileSystem(orderEntity.getOrderId()));
+                List<ImageEntity> imageEntities = imageService.findByIdOrder(orderEntity.getOrderId());
+                if (!imageEntities.isEmpty()){
+                    List<String> imgUrls = new ArrayList<>();
+                    for (ImageEntity image:imageEntities){
+                        String img = image.getFilePath();
+                        imgUrls.add(img);
+                    }
+                    orderBean.setImages(imgUrls);
                 }
 //                CustomerEntity customer = checkByCustomerId(orderEntity.getIdCustomer());
 //                orderBean.setCustomerName(customer.getCustomerName());

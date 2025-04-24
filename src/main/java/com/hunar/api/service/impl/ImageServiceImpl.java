@@ -1,5 +1,6 @@
 package com.hunar.api.service.impl;
 
+import com.cloudinary.Cloudinary;
 import com.hunar.api.directory.service.DirectoryService;
 import com.hunar.api.entity.ImageEntity;
 import com.hunar.api.repository.ImageRepository;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,10 +30,14 @@ public class ImageServiceImpl implements ImageService {
     @Autowired
     DirectoryService directoryService;
 
-    public String uploadImageToFileSystem(MultipartFile file, int idOrder) throws IOException {
-       final String path = directoryService.createDirectoryForDocInOut(dirPath);
-        String filePath=path+"\\"+file.getOriginalFilename();
+    @Autowired
+    Cloudinary cloudinary;
 
+    public String uploadImageToFileSystem(MultipartFile file, int idOrder) throws IOException {
+//       final String path = directoryService.createDirectoryForDocInOut(dirPath);
+//        String filePath=path+"\\"+file.getOriginalFilename();
+        Map<String, String> map = this.uploadImageToCloudnary(file);
+        String filePath = map.get("secure_url");
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setName(file.getOriginalFilename());
         imageEntity.setFilePath(filePath);
@@ -40,10 +46,10 @@ public class ImageServiceImpl implements ImageService {
 
         ImageEntity fileData=fileDataRepository.save(imageEntity);
 
-        file.transferTo(new File(filePath));
+//        file.transferTo(new File(filePath));
 
         if (fileData != null) {
-            return filePath;
+            return fileData.getFilePath();
         }
         return null;
     }
@@ -65,6 +71,16 @@ public class ImageServiceImpl implements ImageService {
 
         }
         return null;
+    }
+
+    @Override
+    public Map uploadImageToCloudnary(MultipartFile file) {
+        try {
+            Map map = cloudinary.uploader().upload(file.getBytes(),Map.of());
+            return map;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 // BELOW CODE IS TO STORE IMAGE INTO DB.
