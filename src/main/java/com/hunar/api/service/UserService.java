@@ -13,7 +13,7 @@ public interface UserService {
 	UserBean getUserByIdOrUserName(String userName)throws FmkException;
 	String deleteUserById(int id)throws FmkException;
 	String deactivateOrActivateUser(int id, String activate)throws FmkException;
-	List<String> getUserTypes();
+//	List<String> getUserTypes();
 	UserBean getUserById(int id) throws FmkException;
 	String forgotPassword(PasswordBean passwordBean) throws FmkException;
 	UserBean changePassword(PasswordBean passwordBean) throws FmkException;

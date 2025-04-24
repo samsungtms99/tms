@@ -21,39 +21,20 @@ public class DirectoryServiceImpl implements DirectoryService {
 
 	@Override
 	public String createDirectoryForDocInOut(String webPath) {
-
-		// webPath = "E:\\XaltoFiles\\XaltoExchange\\";
-
-		webPath = dirPath;
-
 		LocalDate dateString = LocalDate.now();
-
 		int year = dateString.getYear();
-
 		int month = dateString.getMonthValue();
-
 		int day = dateString.getDayOfMonth();
-
-		String path = webPath + DirectoryResource.DIRECTORY_INOUT;
-
+		String path = webPath;
 		String yearPathString = path + "\\" + year;
-
 		String monthPathString = yearPathString + "\\" + month;
-
 		String dayPathString = monthPathString + "\\" + day;
-
 		File pathDir = new File(path);
-
 		File yearDir = new File(yearPathString);
-
 		File monthDir = new File(monthPathString);
-
 		File dayDir = new File(dayPathString);
-
 		try {
-
 			boolean result = false;
-
 			try {
 				dayDir.mkdirs();
 				logger.info("DIR created");
@@ -64,7 +45,6 @@ public class DirectoryServiceImpl implements DirectoryService {
 			}
 		} catch (SecurityException e) {
 		}
-
 		return dayDir.getPath();
 	}
 

@@ -35,7 +35,7 @@ public class LoginController {
 
     @PostMapping("/loginUser")
     public LoginResponse authenticateAndGetToken(@RequestBody AuthRequest authRequest) throws FmkException {
-//        authRequest.setUsername(authRequest.getUsername().toLowerCase());
+        authRequest.setUsername(authRequest.getUsername().toLowerCase());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );

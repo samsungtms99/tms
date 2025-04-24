@@ -12,7 +12,7 @@ import java.util.List;
 public interface OrderService {
     OrderBean createOrder(OrderBean orderBean) throws FmkException, IOException;
     OrderBean updateOrder(OrderBean orderBean) throws FmkException;
-    List<OrderBean> getListOfAllOrders()throws FmkException;
+    List<OrderBean> getListOfAllOrders() throws FmkException, IOException;
     OrderBean getOrderById(int idOrder)throws FmkException;
     String deleteOrderById(int idOrder ) throws  FmkException;
     List<CustomerBean> findBookingDate(LocalDate date) throws FmkException;

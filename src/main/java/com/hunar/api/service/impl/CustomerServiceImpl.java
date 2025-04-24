@@ -1,13 +1,9 @@
 package com.hunar.api.service.impl;
 
 import com.hunar.api.bean.CustomerBean;
-import com.hunar.api.bean.CustomerBean;
 import com.hunar.api.entity.CustomerEntity;
-import com.hunar.api.entity.CustomerEntity;
-import com.hunar.api.exceptionHandling.util.Errors;
 import com.hunar.api.exceptionHandling.util.FmkException;
 import com.hunar.api.repository.CustomerRepository;
-import com.hunar.api.service.AddressService;
 import com.hunar.api.service.CustomerService;
 import com.hunar.api.service.OrderService;
 import org.apache.logging.log4j.LogManager;
@@ -28,8 +24,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
-    @Autowired
-    AddressService addressService;
 
    private final OrderService orderService;
 
@@ -65,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerEntity.get().setMobileNo(customerBean.getMobileNo());
             customerEntity.get().setGender(customerBean.getGender());
             customerEntity.get().setCustomerName(customerBean.getCustomerName());
-            customerEntity.get().setCustomerName(customerBean.getAddress());
+            customerEntity.get().setAddress(customerBean.getAddress());
            CustomerEntity customerEntity1 = customerRepository.save(customerEntity.get());
             logger.info("Updated customer successfully: " + customerBean.getCustomerName());
             CustomerBean customerBean1 = new CustomerBean();

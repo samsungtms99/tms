@@ -47,7 +47,7 @@ public class OrderBean extends GenericBean {
     private LocalDate completionDate;
 
 
-//    private MultipartFile image;
+    private List<String> images;
 
 
     public String getAlterComments() {
@@ -192,5 +192,13 @@ public class OrderBean extends GenericBean {
 
     public void setCompletionDate(LocalDate completionDate) {
         this.completionDate = completionDate;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

@@ -17,7 +17,7 @@ public class CustomerEntity extends GenericEntity {
         @Column(name = "CUSTOMER_NAME")
         private String customerName;
 
-        @Column(name = "NAME_EMAIL", unique = true)
+        @Column(name = "NAME_EMAIL")
         private String customerEmail;
 
         @Column(name = "MOBILE_NO")

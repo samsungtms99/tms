@@ -1,8 +1,6 @@
 package com.hunar.api.bean;
 
-import com.hunar.api.entity.Address;
 import com.hunar.api.generic.bean.GenericBean;
-import jakarta.persistence.Column;
 
 import java.util.List;
 

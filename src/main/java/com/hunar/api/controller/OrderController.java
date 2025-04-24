@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/getListOfAllOrders")
-    List<OrderBean> getListOfAllOrders()throws FmkException{
+    List<OrderBean> getListOfAllOrders() throws FmkException, IOException {
         return  orderService.getListOfAllOrders();
     }
 
